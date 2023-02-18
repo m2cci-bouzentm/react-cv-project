@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Montserrat', sans-serif;
+  /* font-family: 'Roboto', sans-serif; */
+  background-color: #cccccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+/* _______________________________________________________ */
+.navBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  background-color: #333;
+  color: #eee;
+  box-shadow: 0px 4px 6px 1px rgba(0, 0, 0, 0.6);
+}
+.navBar h1 {
+  font-size: 3rem;
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+}
+/* _______________________________________________________ */
+.main {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 30px 20px;
+}
+/* _______________________________________________________ */
+.infoSection,
+.cvShowCase {
+  width: max(600px, 45%);
+  background-color: #eee;
+  padding: 30px 20px;
+  margin: 10px 10px;
+  height: max-content;
+  border-radius: 5px;
+  box-shadow: 0px 30px 45px 0px rgba(0, 0, 0, 0.6);
+}
+.personalInformationForm {
+  display: flex;
+  flex-direction: column;
+}
+.experienceForm,
+.educationForm,
+.settings {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+}
+.settings {
+  margin: 40px 0 0;
+}
+/* _______________________________________________________ */
+.cvShowCase {
+  width: max(700px, 50%);
+  height: 900px;
+  background-color: #ddd;
+  display: grid;
+  grid-template-rows: 1.5fr 8.5fr;
+  color: #333;
+  padding: 0;
+}
+
+.firstRow {
+  padding: 20px 15px;
+  border-bottom: 1px solid #333;
+  background-color: #143e72;
+  color: #eee;
+}
+.firstRow h3 {
+  margin: 10px 0;
+}
+
+.secondRow {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  font-size: 0.9rem;
+}
+.secondRow p {
+  font-size: 0.8rem;
+}
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 15px;
+  background-color: #eee;
+}
+.leftColumn div {
+  margin: 10px 0;
+}
+.leftColumn h4 {
+  border-bottom: 1px solid #333;
+  color: black;
+}
+.experience,
+.education {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.position p:first-child, .university p:first-child{
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.date p {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: #dddddd;
+}
+img {
+  width: 100%;
+}
+.rightColumn h4 {
+  border-bottom: 1px solid #333;
+}
+.rightColumn h4,
+.rightColumn h6 {
+  font-size: 0.9rem;
+  margin: 10px 0;
+  color: black;
+}
+.rightColumn p {
+  font-size: 0.75rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* _______________________________________________________ */
+input,
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(3em + 2px);
+  margin: 10px 0;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 1.5em;
+  background: #fff;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  color: #333;
+}
+input:focus,
+textarea:focus {
+  border-color: #143e72;
+}
+input:invalid {
+  border-color: #fa0000;
+}
+
+input[type='file'] {
+  border: 1px solid rgba(255, 255, 255, 0);
+  color: rgba(255, 255, 255, 0);
+  background-color: #ffffff00;
+  width: 60%;
+}
+input[type='file']::-webkit-file-upload-button {
+  visibility: hidden;
+}
+input[type='file']::file-selector-button {
+  visibility: hidden;
+}
+input[type='file']::-moz-file-browse {
+  visibility: hidden;
+}
+input[type='file']::before {
+  content: 'Select some files';
+  color: black;
+  border: 1px solid #999;
+  border-radius: 3px;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+input[type='file']:hover::before {
+  border-color: black;
+}
+input[type='file']:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+textarea[name='description'] {
+  height: 5rem;
+}
+button {
+  align-items: center;
+  background-color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #ddd;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui, -apple-system, system-ui, 'Helvetica Neue', Helvetica,
+    Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 10px 0;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+button:hover,
+button:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: #fff;
+}
+button:hover {
+  transform: translateY(-1px);
+}
+button:active {
+  background-color: #f0f0f1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
