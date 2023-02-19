@@ -21,8 +21,6 @@ class InformationForm extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleImgChange = this.handleImgChange.bind(this);
-
-    // this.updatePersonalInfoState = this.updatePersonalInfoState.bind(this);
   }
 
   handleImgChange(e) {
@@ -31,6 +29,7 @@ class InformationForm extends Component {
 
     if (!input.files) return;
 
+    // using file reader API
     const reader = new FileReader();
     reader.readAsDataURL(input.files[0]);
     reader.onload = () => {
@@ -114,17 +113,9 @@ class InformationForm extends Component {
           </form>
         </div>
 
-        <div className={styles.experienceForm}>
-          <h3>Experience</h3>
-          <ExperienceForm setStateOfParent={this.props.setStateOfParent} />
-          <button>Add</button>
-        </div>
+        <ExperienceForm setStateOfParent={this.props.setStateOfParent} />
 
-        <div className={styles.educationForm}>
-          <h3>Education</h3>
-          <EducationForm setStateOfParent={this.props.setStateOfParent} />
-          <button>Add</button>
-        </div>
+        <EducationForm setStateOfParent={this.props.setStateOfParent} />
 
         <div className={styles.settings}>
           <button>Generate PDF</button>

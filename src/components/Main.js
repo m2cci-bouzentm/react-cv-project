@@ -46,7 +46,6 @@ class Main extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <main className={styles.main}>
         <InformationForm setStateOfParent={this.setStateOfParent} />

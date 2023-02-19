@@ -8,6 +8,7 @@ export default class ExperienceShowCase extends Component {
   }
 
   render() {
+    console.log(this.props);
     const { company, position, from, to, city } = this.props.information.experience;
     return (
       <div className={styles.experience}>
