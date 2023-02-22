@@ -15,6 +15,9 @@ class App extends Component {
       <div>
         <Nav />
         <Main />
+        <footer>
+
+        </footer>
       </div>
     );
   }

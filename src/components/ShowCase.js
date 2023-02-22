@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styles from '../styles.module.css';
-import sampleImg from './sampleImg.jpg';
 import ExperienceShowCase from './ExperienceShowCase';
 import EducationShowCase from './EducationShowCase';
 
@@ -41,13 +40,13 @@ class ShowCase extends Component {
             <div className="experience-container">
               <h4>Experience</h4>
 
-              <ExperienceShowCase information={this.props.information} />
+              <ExperienceShowCase experience={this.props.information.experience} />
             </div>
 
             <div className="education-container">
               <h4>Education</h4>
 
-              <EducationShowCase information={this.props.information} />
+              <EducationShowCase education={this.props.information.education} />
             </div>
           </div>
           <div className={styles.rightColumn}>

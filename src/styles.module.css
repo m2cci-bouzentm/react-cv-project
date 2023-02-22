@@ -41,7 +41,7 @@ body {
 /* _______________________________________________________ */
 .infoSection,
 .cvShowCase {
-  width: max(600px, 45%);
+  width: min(600px, 75%);
   background-color: #eee;
   padding: 30px 20px;
   margin: 10px 10px;
@@ -65,7 +65,7 @@ body {
 }
 /* _______________________________________________________ */
 .cvShowCase {
-  width: max(700px, 50%);
+  width: min(700px, 80%);
   height: 900px;
   background-color: #ddd;
   display: grid;
@@ -126,7 +126,7 @@ body {
   background-color: #dddddd;
 }
 img {
-  width: 100%;
+  width: min(200px, 100%)
 }
 .rightColumn h4 {
   border-bottom: 1px solid #333;

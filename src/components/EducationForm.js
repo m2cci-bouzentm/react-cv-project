@@ -6,21 +6,17 @@ export default class EducationForm extends Component {
     super(props);
 
     this.state = {
-      educationFormNum: [0],
-      education: {
-        university: '',
-        city: '',
-        degree: '',
-        from: '',
-        to: '',
-      },
+      educationFormNum: [1],
+      education: {},
+      educationArr: [],
     };
 
-    this.educationFormNum = 0;
+    this.educationFormNum = 1;
 
     this.handleChange = this.handleChange.bind(this);
     this.handleAddBtn = this.handleAddBtn.bind(this);
     this.handleDeleteBtn = this.handleDeleteBtn.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e) {
@@ -29,10 +25,9 @@ export default class EducationForm extends Component {
       education: {
         ...prevState.education,
         [input.name]: input.value,
+        form: e.target.parentElement,
       },
     }));
-
-    this.props.setStateOfParent(this.state.education);
   }
 
   handleAddBtn(e) {
@@ -45,15 +40,40 @@ export default class EducationForm extends Component {
 
   handleDeleteBtn(e) {
     e.preventDefault();
+    this.educationFormNum--;
     this.setState((prevState) => ({
       educationFormNum: [...prevState.educationFormNum].slice(0, -1),
+      educationArr: [...prevState.educationArr].slice(0, -1),
     }));
+
+    this.props.setEducationStateOfParent(this.state.educationArr);
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+
+    // filter the array so it can have only one object per form, the last form submission
+    let filteredEducArr = this.state.educationArr.filter((educ) => {
+      return this.state.education.form !== educ.form;
+    });
+
+    // set the filtered array as the new educationArr
+    this.setState({
+      educationArr: filteredEducArr,
+    });
+
+    await this.setState((prevState) => ({
+      educationArr: [...prevState.educationArr, this.state.education],
+      education: {},
+    }));
+
+    this.props.setEducationStateOfParent(this.state.educationArr);
   }
 
   render() {
     const duplicateForm = this.state.educationFormNum.map((formNum) => {
       return (
-        <form key={formNum} action="" className={styles.educationForm}>
+        <form key={formNum} action="" className={`form  ${styles.educationForm}`}>
           <input
             type="text"
             name="university"
@@ -88,7 +108,7 @@ export default class EducationForm extends Component {
             min="1923"
             max="2050"
           ></input>
-          <button onClick={this.handleDeleteBtn}>Delete</button>
+          <button onClick={this.handleSubmit}>Add education</button>
         </form>
       );
     });
@@ -96,7 +116,10 @@ export default class EducationForm extends Component {
       <div className={styles.educationForm}>
         <h3>Education</h3>
         {duplicateForm}
-        <button onClick={this.handleAddBtn}>Add</button>
+        <button onClick={this.handleAddBtn}>Add more education</button>
+        <button onClick={this.handleDeleteBtn}>
+          Delete the last education
+        </button>
       </div>
     );
   }

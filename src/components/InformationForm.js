@@ -21,40 +21,56 @@ class InformationForm extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleImgChange = this.handleImgChange.bind(this);
+    this.handleReset = this.handleReset.bind(this);
   }
 
-  handleImgChange(e) {
-    let input = e.target;
-    let imgSrc;
-
+  handleImgChange(input) {
     if (!input.files) return;
 
     // using file reader API
     const reader = new FileReader();
+    let img;
     reader.readAsDataURL(input.files[0]);
     reader.onload = () => {
-      imgSrc = reader.result;
+      img = reader.result;
       this.setState((prevState) => ({
         personalInformation: {
           ...prevState.personalInformation,
-          [input.name]: imgSrc,
+          [input.name]: img,
         },
       }));
-
-      this.props.setStateOfParent(this.state.personalInformation);
     };
   }
 
-  handleChange(e) {
+  async handleChange(e) {
     let input = e.target;
-    this.setState((prevState) => ({
+    await this.handleImgChange(input);
+    await this.setState((prevState) => ({
       personalInformation: {
         ...prevState.personalInformation,
         [input.name]: input.value,
       },
     }));
 
-    this.props.setStateOfParent(this.state.personalInformation);
+    this.props.setInfoStateOfParent(this.state.personalInformation);
+  }
+
+  handleReset(e) {
+    e.preventDefault();
+    const formContainers = [...e.target.parentElement.parentElement.childNodes];
+    for (const formContainer of formContainers) {
+      const form = [...formContainer.childNodes][1];
+      const inputArr = [...form.childNodes];
+      if (!form.hasAttribute("action")) continue;
+      inputArr.forEach((input) => {
+        if (!input.hasAttribute("name")) return;
+        input.value = '';
+      });
+    }
+
+    this.props.setInfoStateOfParent({});
+    this.props.setExperienceStateOfParent([]);
+    this.props.setEducationStateOfParent([]);
   }
 
   render() {
@@ -62,7 +78,7 @@ class InformationForm extends Component {
       <div className={styles.infoSection}>
         <div className={styles.personalInformationForm}>
           <h3>Personal Information</h3>
-          <form action="">
+          <form action="" className="form">
             <input
               type="text"
               name="fName"
@@ -85,7 +101,7 @@ class InformationForm extends Component {
               type="file"
               name="photo"
               placeholder="Photo"
-              onChange={this.handleImgChange}
+              onChange={this.handleChange}
             ></input>
             <input
               type="text"
@@ -113,13 +129,16 @@ class InformationForm extends Component {
           </form>
         </div>
 
-        <ExperienceForm setStateOfParent={this.props.setStateOfParent} />
+        <ExperienceForm
+          setExperienceStateOfParent={this.props.setExperienceStateOfParent}
+        />
 
-        <EducationForm setStateOfParent={this.props.setStateOfParent} />
+        <EducationForm
+          setEducationStateOfParent={this.props.setEducationStateOfParent}
+        />
 
         <div className={styles.settings}>
-          <button>Generate PDF</button>
-          <button>Reset</button>
+          <button onClick={this.handleReset}>Reset</button>
         </div>
       </div>
     );

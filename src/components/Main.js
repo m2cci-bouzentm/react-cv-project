@@ -9,47 +9,46 @@ class Main extends Component {
 
     this.state = {
       personalInformation: {},
-      experience: {},
-      education: {},
+      experience: [], // [{},{},{},{}]
+      education: [],
     };
 
-    this.setStateOfParent = this.setStateOfParent.bind(this);
+    this.setInfoStateOfParent = this.setInfoStateOfParent.bind(this);
+    this.setExperienceStateOfParent = this.setExperienceStateOfParent.bind(this);
+    this.setEducationStateOfParent = this.setEducationStateOfParent.bind(this);
   }
 
-  setStateOfParent(value) {
-    if ('fName' in value) {
-      this.setState((prevState) => ({
-        personalInformation: {
-          ...prevState.personalInformation,
-          ...value,
-        },
-      }));
-    }
+  // handling each component state change alone
+  setExperienceStateOfParent(expArr) {
+    this.setState({
+      experience: [...expArr],
+    });
+  }
+  setEducationStateOfParent(educArr) {
+    this.setState({
+      education: [...educArr],
+    });
+  }
 
-    if ('position' in value) {
-      this.setState((prevState) => ({
-        experience: {
-          ...prevState.experience,
-          ...value,
-        },
-      }));
-    }
-
-    if ('university' in value) {
-      this.setState((prevState) => ({
-        education: {
-          ...prevState.education,
-          ...value,
-        },
-      }));
-    }
+  setInfoStateOfParent(personInfo) {
+    this.setState({
+      personalInformation: {
+        ...personInfo,
+      },
+    });
   }
 
   render() {
     return (
       <main className={styles.main}>
-        <InformationForm setStateOfParent={this.setStateOfParent} />
-        <ShowCase information={this.state} setStateOfParent={this.setStateOfParent} />
+        <InformationForm
+          setInfoStateOfParent={this.setInfoStateOfParent}
+          setExperienceStateOfParent={this.setExperienceStateOfParent}
+          setEducationStateOfParent={this.setEducationStateOfParent}
+        />
+        <ShowCase
+          information={this.state}
+        />
       </main>
     );
   }
