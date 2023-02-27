@@ -59,9 +59,12 @@ class InformationForm extends Component {
     e.preventDefault();
     const formContainers = [...e.target.parentElement.parentElement.childNodes];
     for (const formContainer of formContainers) {
-      const form = [...formContainer.childNodes][1];
-      const inputArr = [...form.childNodes];
+      const form = formContainer.childNodes[1];
+      console.log(formContainer.childNodes);
+      if (!form) continue;
       if (!form.hasAttribute("action")) continue;
+
+      const inputArr = [...form.childNodes];
       inputArr.forEach((input) => {
         if (!input.hasAttribute("name")) return;
         input.value = '';
