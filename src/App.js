@@ -1,26 +1,17 @@
-import React, { Component } from 'react';
-import Nav from './components/Nav'
+import React from 'react';
 // import './styles.module.css'
-import Main from './components/Main'
-class App extends Component {
-  constructor(props) {
-    super(props);
+import Nav from './components/Nav';
+import Main from './components/Main';
 
-    this.state = {
-    };
-  }
+const App = () => {
+  return (
+    <div>
+      <Nav />
+      <Main />
+      <footer>
 
-  render() {
-    return (
-      <div>
-        <Nav />
-        <Main />
-        <footer>
-
-        </footer>
-      </div>
-    );
-  }
-}
-
+      </footer>
+    </div>
+  );
+};
 export default App;

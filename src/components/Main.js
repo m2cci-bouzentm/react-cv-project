@@ -1,57 +1,35 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styles from '../styles.module.css';
 import InformationForm from './InformationForm';
 import ShowCase from './ShowCase';
 
-class Main extends Component {
-  constructor(props) {
-    super(props);
+const Main = () => {
+  const [personalInformation, setPersonalInformation] = useState({});
+  const [experience, setExperience] = useState([]);
+  const [education, setEducation] = useState([]);
 
-    this.state = {
-      personalInformation: {},
-      experience: [], // [{},{},{},{}]
-      education: [],
-    };
+  const setInfoStateOfParent = (personInfo) => {
+    setPersonalInformation({ ...personInfo });
+  };
+  const setExperienceStateOfParent = (expArr) => {
+    setExperience([...expArr]);
+  };
+  const setEducationStateOfParent = (educArr) => {
+    setEducation([...educArr]);
+  };
 
-    this.setInfoStateOfParent = this.setInfoStateOfParent.bind(this);
-    this.setExperienceStateOfParent = this.setExperienceStateOfParent.bind(this);
-    this.setEducationStateOfParent = this.setEducationStateOfParent.bind(this);
-  }
+  const currentInformation = { personalInformation, experience, education };
 
-  // handling each component state change alone
-  setExperienceStateOfParent(expArr) {
-    this.setState({
-      experience: [...expArr],
-    });
-  }
-  setEducationStateOfParent(educArr) {
-    this.setState({
-      education: [...educArr],
-    });
-  }
-
-  setInfoStateOfParent(personInfo) {
-    this.setState({
-      personalInformation: {
-        ...personInfo,
-      },
-    });
-  }
-
-  render() {
-    return (
-      <main className={styles.main}>
-        <InformationForm
-          setInfoStateOfParent={this.setInfoStateOfParent}
-          setExperienceStateOfParent={this.setExperienceStateOfParent}
-          setEducationStateOfParent={this.setEducationStateOfParent}
-        />
-        <ShowCase
-          information={this.state}
-        />
-      </main>
-    );
-  }
-}
+  return (
+    <main className={styles.main}>
+      <InformationForm
+        setInfoStateOfParent={setInfoStateOfParent}
+        setExperienceStateOfParent={setExperienceStateOfParent}
+        setEducationStateOfParent={setEducationStateOfParent}
+      />
+      <ShowCase information={currentInformation} />
+    </main>
+  );
+};
 
 export default Main;

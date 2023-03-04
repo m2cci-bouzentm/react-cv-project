@@ -1,126 +1,111 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../styles.module.css';
 
-export default class EducationForm extends Component {
-  constructor(props) {
-    super(props);
+const EducationForm = (props) => {
+  const [educationFormNum, setEducationFormNum] = useState([1]);
+  const [education, setEducation] = useState({});
+  const [educationArr, setEducationArr] = useState([]);
 
-    this.state = {
-      educationFormNum: [1],
-      education: {},
-      educationArr: [],
-    };
-
-    this.educationFormNum = 1;
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleAddBtn = this.handleAddBtn.bind(this);
-    this.handleDeleteBtn = this.handleDeleteBtn.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(e) {
+  function handleChange(e) {
     let input = e.target;
-    this.setState((prevState) => ({
-      education: {
-        ...prevState.education,
-        [input.name]: input.value,
-        form: e.target.parentElement,
-      },
-    }));
+    setEducation({
+      ...education,
+      [input.name]: input.value,
+      form: e.target.parentElement,
+    });
   }
 
-  handleAddBtn(e) {
+  function handleAddBtn(e) {
     e.preventDefault();
-    this.educationFormNum++;
-    this.setState((prevState) => ({
-      educationFormNum: [...prevState.educationFormNum, this.educationFormNum],
-    }));
+    if (!educationFormNum.length) {
+      setEducationFormNum([1]);
+    }
+    else {
+      setEducationFormNum([...educationFormNum, (educationFormNum.at(-1) + 1)]);
+    }
   }
 
-  handleDeleteBtn(e) {
+  function handleDeleteBtn(e) {
     e.preventDefault();
-    this.educationFormNum--;
-    this.setState((prevState) => ({
-      educationFormNum: [...prevState.educationFormNum].slice(0, -1),
-      educationArr: [...prevState.educationArr].slice(0, -1),
-    }));
 
-    this.props.setEducationStateOfParent(this.state.educationArr);
+    /* deleting last form and its last object
+      and its last object */
+    setEducationFormNum([...educationFormNum].slice(0, -1));
+    setEducationArr([...educationArr].slice(0, -1));
+    props.setEducationStateOfParent(educationArr);
   }
 
-  async handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     // filter the array so it can have only one object per form, the last form submission
-    let filteredEducArr = this.state.educationArr.filter((educ) => {
-      return this.state.education.form !== educ.form;
+    let filteredExpArr = educationArr.filter((exp) => {
+      return education.form !== exp.form;
     });
 
     // set the filtered array as the new educationArr
-    this.setState({
-      educationArr: filteredEducArr,
-    });
-
-    await this.setState((prevState) => ({
-      educationArr: [...prevState.educationArr, this.state.education],
-      education: {},
-    }));
-
-    this.props.setEducationStateOfParent(this.state.educationArr);
+    setEducationArr([...filteredExpArr, education]);
+    setEducation({});
   }
 
-  render() {
-    const duplicateForm = this.state.educationFormNum.map((formNum) => {
-      return (
-        <form key={formNum} action="" className={`form  ${styles.educationForm}`}>
-          <input
-            type="text"
-            name="university"
-            placeholder="University Name"
-            onChange={this.handleChange}
-          ></input>
-          <input
-            type="text"
-            name="city"
-            placeholder="City"
-            onChange={this.handleChange}
-          ></input>
-          <input
-            type="text"
-            name="degree"
-            placeholder="Degree"
-            onChange={this.handleChange}
-          ></input>
-          <input
-            type="number"
-            name="from"
-            placeholder="From"
-            onChange={this.handleChange}
-            min="1923"
-            max="2050"
-          ></input>
-          <input
-            type="number"
-            name="to"
-            placeholder="To"
-            onChange={this.handleChange}
-            min="1923"
-            max="2050"
-          ></input>
-          <button onClick={this.handleSubmit}>Add education</button>
-        </form>
-      );
-    });
+  /* setEducationArr is asynchronous operation so we 
+ must setStateOfParent later on when the operation is completed */
+  useEffect(() => {
+    props.setEducationStateOfParent(educationArr);
+  }, [educationArr]);
+
+  const duplicateForm = educationFormNum.map((formNum) => {
     return (
-      <div className={styles.educationForm}>
-        <h3>Education</h3>
-        {duplicateForm}
-        <button onClick={this.handleAddBtn}>Add more education</button>
-        <button onClick={this.handleDeleteBtn}>
-          Delete the last education
-        </button>
-      </div>
+      <form key={formNum} action="" className={`form  ${styles.educationForm}`}>
+        <input
+          type="text"
+          name="university"
+          placeholder="University Name"
+          onChange={handleChange}
+        ></input>
+        <input
+          type="text"
+          name="city"
+          placeholder="City"
+          onChange={handleChange}
+        ></input>
+        <input
+          type="text"
+          name="degree"
+          placeholder="Degree"
+          onChange={handleChange}
+        ></input>
+        <input
+          type="number"
+          name="from"
+          placeholder="From"
+          onChange={handleChange}
+          min="1923"
+          max="2050"
+        ></input>
+        <input
+          type="number"
+          name="to"
+          placeholder="To"
+          onChange={handleChange}
+          min="1923"
+          max="2050"
+        ></input>
+        <button onClick={handleSubmit}>Add education</button>
+      </form>
     );
-  }
+  });
+
+  return (
+    <div className={styles.educationForm}>
+      <h3>Education</h3>
+      {duplicateForm}
+      <button onClick={handleAddBtn}>Add more education</button>
+      <button onClick={handleDeleteBtn}>
+        Delete the last education
+      </button>
+    </div>
+  );
 }
+
+export default EducationForm
