@@ -55,6 +55,10 @@ body {
   display: flex;
   flex-direction: column;
   margin: 10px 0;
+
+}
+.educationForm form,.experienceForm form {
+  border-top: solid 2px #333;
 }
 .settings {
   margin: 40px 0 0;
@@ -68,6 +72,8 @@ body {
   grid-template-rows: 1.5fr 8.5fr;
   color: #333;
   padding: 0;
+  position: sticky;
+  top: 5px
 }
 
 .firstRow {

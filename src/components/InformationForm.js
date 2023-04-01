@@ -22,10 +22,9 @@ const InformationForm = (props) => {
     const reader = new FileReader();
     reader.readAsDataURL(input.files[0]);
     reader.onload = () => {
-      let img = reader.result;
       setPersonalInformation({
         ...personalInformation,
-        [input.name]: img,
+        [input.name]: reader.result,
       });
     };
   }
@@ -52,6 +51,7 @@ const InformationForm = (props) => {
       inputArr.forEach((input) => {
         if (!input.hasAttribute('name')) return;
         input.value = '';
+        input.textContent = '';
       });
     }
 

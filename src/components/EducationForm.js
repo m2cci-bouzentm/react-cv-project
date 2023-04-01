@@ -2,9 +2,19 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles.module.css';
 
 const EducationForm = (props) => {
-  const [educationFormNum, setEducationFormNum] = useState([1]);
+  const [educationFormNum, setEducationFormNum] = useState([0]);
   const [education, setEducation] = useState({});
   const [educationArr, setEducationArr] = useState([]);
+
+  function handleFocus(e) {
+    if (!Object.keys(education).length) {
+      const inputsArr = [...e.target.parentElement.children].slice(0, -2);
+      inputsArr.forEach((input) => {
+        input.textContent = '';
+        input.value = '';
+      });
+    }
+  }
 
   function handleChange(e) {
     let input = e.target;
@@ -28,10 +38,10 @@ const EducationForm = (props) => {
   function handleDeleteBtn(e) {
     e.preventDefault();
 
-    /* deleting last form and its last object
-      and its last object */
-    setEducationFormNum([...educationFormNum].slice(0, -1));
-    setEducationArr([...educationArr].slice(0, -1));
+    let targetedForm = e.target.parentElement;
+    setEducationArr([...educationArr].filter((exp) => exp.form !== targetedForm));
+
+    targetedForm.remove();
     props.setEducationStateOfParent(educationArr);
   }
 
@@ -39,12 +49,12 @@ const EducationForm = (props) => {
     e.preventDefault();
 
     // filter the array so it can have only one object per form, the last form submission
-    let filteredExpArr = educationArr.filter((exp) => {
+    let filteredEducArr = educationArr.filter((exp) => {
       return education.form !== exp.form;
     });
 
     // set the filtered array as the new educationArr
-    setEducationArr([...filteredExpArr, education]);
+    setEducationArr([...filteredEducArr, education]);
     setEducation({});
   }
 
@@ -54,44 +64,46 @@ const EducationForm = (props) => {
     props.setEducationStateOfParent(educationArr);
   }, [educationArr]);
 
-  const duplicateForm = educationFormNum.map((formNum) => {
+  const duplicateForm = educationFormNum.map((num) => {
     return (
-      <form key={formNum} action="" className={`form  ${styles.educationForm}`}>
+      <form key={num} action="#" className={styles.educationForm}>
         <input
           type="text"
-          name="university"
-          placeholder="University Name"
+          name="position"
+          placeholder="Position"
           onChange={handleChange}
+          onFocus={handleFocus}
+        ></input>
+        <input
+          type="text"
+          name="company"
+          placeholder="Company"
+          onChange={handleChange}
+          onFocus={handleFocus}
         ></input>
         <input
           type="text"
           name="city"
           placeholder="City"
           onChange={handleChange}
-        ></input>
-        <input
-          type="text"
-          name="degree"
-          placeholder="Degree"
-          onChange={handleChange}
+          onFocus={handleFocus}
         ></input>
         <input
           type="number"
           name="from"
           placeholder="From"
           onChange={handleChange}
-          min="1923"
-          max="2050"
+          onFocus={handleFocus}
         ></input>
         <input
           type="number"
           name="to"
           placeholder="To"
           onChange={handleChange}
-          min="1923"
-          max="2050"
+          onFocus={handleFocus}
         ></input>
         <button onClick={handleSubmit}>Add education</button>
+        <button onClick={handleDeleteBtn}>Delete education</button>
       </form>
     );
   });
@@ -101,9 +113,6 @@ const EducationForm = (props) => {
       <h3>Education</h3>
       {duplicateForm}
       <button onClick={handleAddBtn}>Add more education</button>
-      <button onClick={handleDeleteBtn}>
-        Delete the last education
-      </button>
     </div>
   );
 }

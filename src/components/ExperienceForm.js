@@ -2,9 +2,19 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles.module.css';
 
 const ExperienceForm = (props) => {
-  const [experienceFormNum, setExperienceFormNum] = useState([1]);
+  const [experienceFormNum, setExperienceFormNum] = useState([0]);
   const [experience, setExperience] = useState({});
   const [experienceArr, setExperienceArr] = useState([]);
+
+  function handleFocus(e) {
+    if (!Object.keys(experience).length) {
+      const inputsArr = [...e.target.parentElement.children].slice(0, -2);
+      inputsArr.forEach((input) => {
+        input.textContent = '';
+        input.value = '';
+      });
+    }
+  }
 
   function handleChange(e) {
     let input = e.target;
@@ -19,16 +29,22 @@ const ExperienceForm = (props) => {
     e.preventDefault();
     if (!experienceFormNum.length) {
       setExperienceFormNum([1]);
-    }
-    else {
-      setExperienceFormNum([...experienceFormNum, (experienceFormNum.at(-1) + 1)]);
+    } else {
+      setExperienceFormNum([
+        ...experienceFormNum,
+        experienceFormNum.at(-1) + 1,
+      ]);
     }
   }
 
   function handleDeleteBtn(e) {
     e.preventDefault();
-    setExperienceFormNum([...experienceFormNum].slice(0, -1)); // deleting last form and its last object
-    setExperienceArr([...experienceArr].slice(0, -1)); // and its last object
+    let targetedForm = e.target.parentElement;
+    setExperienceArr(
+      [...experienceArr].filter((exp) => exp.form !== targetedForm)
+    );
+
+    targetedForm.remove();
     props.setExperienceStateOfParent(experienceArr);
   }
 
@@ -50,40 +66,46 @@ const ExperienceForm = (props) => {
     props.setExperienceStateOfParent(experienceArr);
   }, [experienceArr]);
 
-  const duplicateForm = experienceFormNum.map((formNum) => {
+  const duplicateForm = experienceFormNum.map((num) => {
     return (
-      <form key={formNum} action="#" className={styles.experienceForm}>
+      <form key={num} action="#" className={styles.experienceForm}>
         <input
           type="text"
           name="position"
           placeholder="Position"
           onChange={handleChange}
+          onFocus={handleFocus}
         ></input>
         <input
           type="text"
           name="company"
           placeholder="Company"
           onChange={handleChange}
+          onFocus={handleFocus}
         ></input>
         <input
           type="text"
           name="city"
           placeholder="City"
           onChange={handleChange}
+          onFocus={handleFocus}
         ></input>
         <input
           type="number"
           name="from"
           placeholder="From"
           onChange={handleChange}
+          onFocus={handleFocus}
         ></input>
         <input
           type="number"
           name="to"
           placeholder="To"
           onChange={handleChange}
+          onFocus={handleFocus}
         ></input>
         <button onClick={handleSubmit}>Add experience</button>
+        <button onClick={handleDeleteBtn}>Delete experience</button>
       </form>
     );
   });
@@ -93,7 +115,6 @@ const ExperienceForm = (props) => {
       <h3>Experience</h3>
       {duplicateForm}
       <button onClick={handleAddBtn}>Add more experience</button>
-      <button onClick={handleDeleteBtn}>Delete the last experience</button>
     </div>
   );
 };
