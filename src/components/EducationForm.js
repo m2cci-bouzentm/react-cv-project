@@ -6,19 +6,29 @@ export default class EducationForm extends Component {
     super(props);
 
     this.state = {
-      educationFormNum: [1],
+      educationFormNum: [0],
       education: {},
       educationArr: [],
     };
 
-    this.educationFormNum = 1;
+    this.educationFormNum = this.state.educationFormNum[0];
 
     this.handleChange = this.handleChange.bind(this);
     this.handleAddBtn = this.handleAddBtn.bind(this);
     this.handleDeleteBtn = this.handleDeleteBtn.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
   }
 
+  handleFocus(e) {
+    if (!Object.keys(this.state.education).length) {
+      const inputsArr = [...e.target.parentElement.children].slice(0, -2);
+      inputsArr.forEach((input) => {
+        input.textContent = '';
+        input.value = '';
+      });
+    }
+  }
   handleChange(e) {
     let input = e.target;
     this.setState((prevState) => ({
@@ -29,7 +39,6 @@ export default class EducationForm extends Component {
       },
     }));
   }
-
   handleAddBtn(e) {
     e.preventDefault();
     this.educationFormNum++;
@@ -37,18 +46,19 @@ export default class EducationForm extends Component {
       educationFormNum: [...prevState.educationFormNum, this.educationFormNum],
     }));
   }
-
-  handleDeleteBtn(e) {
+  async handleDeleteBtn(e) {
     e.preventDefault();
-    this.educationFormNum--;
-    this.setState((prevState) => ({
-      educationFormNum: [...prevState.educationFormNum].slice(0, -1),
-      educationArr: [...prevState.educationArr].slice(0, -1),
+    let targetedForm = e.target.parentElement;
+
+    await this.setState((prevState) => ({
+      educationArr: prevState.educationArr.filter(
+        (educ) => educ.form !== targetedForm
+      ),
     }));
 
+    targetedForm.style.display = 'none';
     this.props.setEducationStateOfParent(this.state.educationArr);
   }
-
   async handleSubmit(e) {
     e.preventDefault();
 
@@ -71,44 +81,46 @@ export default class EducationForm extends Component {
   }
 
   render() {
-    const duplicateForm = this.state.educationFormNum.map((formNum) => {
+    const duplicateForm = this.state.educationFormNum.map((num) => {
       return (
-        <form key={formNum} action="" className={`form  ${styles.educationForm}`}>
+        <form key={num} action="" className={`form  ${styles.educationForm}`}>
           <input
             type="text"
             name="university"
             placeholder="University Name"
             onChange={this.handleChange}
+            onFocus={this.handleFocus}
           ></input>
           <input
             type="text"
             name="city"
             placeholder="City"
             onChange={this.handleChange}
+            onFocus={this.handleFocus}
           ></input>
           <input
             type="text"
             name="degree"
             placeholder="Degree"
             onChange={this.handleChange}
+            onFocus={this.handleFocus}
           ></input>
           <input
             type="number"
             name="from"
             placeholder="From"
             onChange={this.handleChange}
-            min="1923"
-            max="2050"
+            onFocus={this.handleFocus}
           ></input>
           <input
             type="number"
             name="to"
             placeholder="To"
             onChange={this.handleChange}
-            min="1923"
-            max="2050"
+            onFocus={this.handleFocus}
           ></input>
           <button onClick={this.handleSubmit}>Add education</button>
+          <button onClick={this.handleDeleteBtn}>Delete education</button>
         </form>
       );
     });
@@ -117,9 +129,6 @@ export default class EducationForm extends Component {
         <h3>Education</h3>
         {duplicateForm}
         <button onClick={this.handleAddBtn}>Add more education</button>
-        <button onClick={this.handleDeleteBtn}>
-          Delete the last education
-        </button>
       </div>
     );
   }

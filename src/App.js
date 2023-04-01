@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Nav from './components/Nav'
+import Nav from './components/Nav';
 // import './styles.module.css'
-import Main from './components/Main'
+import Main from './components/Main';
+import Footer from './components/Footer';
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-    };
+    this.state = {};
   }
 
   render() {
@@ -15,9 +15,7 @@ class App extends Component {
       <div>
         <Nav />
         <Main />
-        <footer>
-
-        </footer>
+        <Footer />
       </div>
     );
   }

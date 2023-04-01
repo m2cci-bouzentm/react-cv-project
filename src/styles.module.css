@@ -8,12 +8,8 @@
 }
 body {
   font-family: 'Montserrat', sans-serif;
-  /* font-family: 'Roboto', sans-serif; */
   background-color: #cccccc;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
+  height: 100%;
 }
 /* _______________________________________________________ */
 .navBar {
@@ -32,7 +28,7 @@ body {
 }
 /* _______________________________________________________ */
 .main {
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -59,6 +55,10 @@ body {
   display: flex;
   flex-direction: column;
   margin: 10px 0;
+
+}
+.educationForm form,.experienceForm form {
+  border-top: solid 2px #333;
 }
 .settings {
   margin: 40px 0 0;
@@ -72,6 +72,8 @@ body {
   grid-template-rows: 1.5fr 8.5fr;
   color: #333;
   padding: 0;
+  position: sticky;
+  top: 5px
 }
 
 .firstRow {
@@ -139,6 +141,25 @@ img {
 }
 .rightColumn p {
   font-size: 0.75rem;
+}
+
+/*__________________________________________________*/
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+  color: #eee;
+  box-shadow: inset #33333362 5px 1px 20px;
+  padding: 15px;
+}
+a {
+  decoration: none;
+  color: inherit;
+  border-radius: 10px;
+}
+a svg {
+  padding: 0 5px;
 }
 
 

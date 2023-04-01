@@ -19,6 +19,7 @@ class ShowCase extends Component {
       photo,
       title,
     } = this.props.information.personalInformation;
+
     return (
       <div className={styles.cvShowCase}>
         <div className={styles.firstRow}>

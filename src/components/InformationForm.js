@@ -29,14 +29,12 @@ class InformationForm extends Component {
 
     // using file reader API
     const reader = new FileReader();
-    let img;
     reader.readAsDataURL(input.files[0]);
     reader.onload = () => {
-      img = reader.result;
       this.setState((prevState) => ({
         personalInformation: {
           ...prevState.personalInformation,
-          [input.name]: img,
+          [input.name]: reader.result,
         },
       }));
     };
@@ -68,6 +66,7 @@ class InformationForm extends Component {
       inputArr.forEach((input) => {
         if (!input.hasAttribute("name")) return;
         input.value = '';
+        input.textContent = '';
       });
     }
 
